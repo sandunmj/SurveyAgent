@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import {firebase} from '@react-native-firebase/auth';
+import {firebase} from '@react-native-firebase/app';
 import {
   StyleSheet,
   Text,
@@ -22,8 +22,20 @@ export default class VerifyPhone extends React.Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      OTP: '',
+      email: this.props.navigation.state.params.email,
     };
+    this.signUpUser();
+  }
+
+  getPhoneNumber(){
+    return '+94713522613'
+  }
+
+  signUpUser(){
+    firebase.auth().createUserWithEmailAndPhone(
+      this.state.email,
+      this.getPhoneNumber(),
+    );
   }
 
   render() {

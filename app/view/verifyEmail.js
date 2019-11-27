@@ -27,6 +27,18 @@ export default class VerifyEmail extends React.Component<Props> {
     };
   }
 
+  handleVerifyEmail(){
+    const email = this.state.email;
+    if (email === 'sandunmenaka@gmail.com'){
+      this.props.navigation.navigate('verifyPhone', {
+        email: email
+      });
+    }
+    else {
+      Alert.alert('Please enter a valid email!')
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -47,7 +59,7 @@ export default class VerifyEmail extends React.Component<Props> {
           <TouchableOpacity
             style={styles.touchable}
             onPress={() => {
-              this.props.navigation.navigate('verifyPhone');
+              this.handleVerifyEmail();
             }}
             underlayColor={themeColor}>
             <Text style={styles.touchText}>Enter</Text>
