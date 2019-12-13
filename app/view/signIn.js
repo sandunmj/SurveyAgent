@@ -11,7 +11,6 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  Image,
 } from 'react-native';
 import {firebase} from '@react-native-firebase/auth';
 

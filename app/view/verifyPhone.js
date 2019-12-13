@@ -16,26 +16,22 @@ import {
 
 const themeColor = '#4b0082';
 const themeColor2 = '#ffffff';
-
-type Props = {};
+type props = {};
 export default class VerifyPhone extends React.Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
       email: this.props.navigation.state.params.email,
+      isVerified: false,
     };
-    this.signUpUser();
-  }
+  };
 
-  getPhoneNumber(){
-    return '+94713522613'
-  }
-
-  signUpUser(){
-    firebase.auth().createUserWithEmailAndPhone(
-      this.state.email,
-      this.getPhoneNumber(),
-    );
+  componentDidMount(){
+    if (true){
+      this.props.navigation.navigate('signUp',{
+        email: this.state.email,
+      });
+    }
   }
 
   render() {

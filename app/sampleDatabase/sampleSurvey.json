@@ -1,0 +1,74 @@
+{
+    "survey1" : {
+        "description":"This is the sample survey #number based one #category. Please fill on or before #day",
+        "categories": {
+            "1":"cat1",
+            "2":"cat2",
+            "3":"cat3"
+        },
+        "questions":{
+            "1":{
+                "type":"MCQ",
+                "category":"cat1",
+                "content":"This is a sample MCQ question",
+                "weigh":"0.8"
+            },
+            "2":{
+                "type":"TEXT",
+                "category":"cat1",
+                "content":"This is a sample text question"
+            },
+            "3":{
+                "type":"PARAGRAPH",
+                "category":"cat2",
+                "content": "Answer the following questions based on the paragraph shown below",
+                "paragraph":"This is a sample paragraph. This is a sample paragraph. This is a sample paragraph. This is a sample paragraph. This is a sample paragraph. ",
+                "questions":{
+                    "1":{
+                        "content":"This is the 1st paragraph question",
+                        "weigh":"0.5"
+                    },
+                    "2":{
+                        "content":"This is the 2nd paragraph question",
+                        "weigh":"0.6"
+                    },
+                    "3":{
+                        "content":"This is the 3rd paragraph question",
+                        "weigh":"0.5"
+                    }
+                }
+            },
+            "4":{
+                "type":"MCQ",
+                "category":"cat2",
+                "content":"This is a sample MCQ question",
+                "weigh":"0.8"
+            },
+            "5":{
+                "type":"TEXT",
+                "category":"cat3",
+                "content":"This is a sample text question"
+            },
+            "6":{
+                "type":"PARAGRAPH",
+                "category":"cat3",
+                "content": "Answer the following questions based on the paragraph shown below",
+                "paragraph":"This is a sample paragraph. This is a sample paragraph. This is a sample paragraph. This is a sample paragraph. This is a sample paragraph. ",
+                "questions":{
+                    "1":{
+                        "content":"This is the 1st paragraph question",
+                        "weigh":"0.5"
+                    },
+                    "2":{
+                        "content":"This is the 2nd paragraph question",
+                        "weigh":"0.6"
+                    },
+                    "3":{
+                        "content":"This is the 3rd paragraph question",
+                        "weigh":"0.5"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -6,9 +6,10 @@
 import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 import InitLoading from './app/view/initLoading';
 import SignIn from './app/view/signIn';
-import TestFlex from './app/view/testFlex';
 import VerifyEmail from './app/view/verifyEmail';
 import VerifyPhone from './app/view/verifyPhone';
+import SignUp from './app/view/signUp';
+import MainScreen from './app/view/mainScreen';
 
 const AppNavigator = createSwitchNavigator(
   {
@@ -23,6 +24,12 @@ const AppNavigator = createSwitchNavigator(
     },
     verifyPhone: {
       screen: VerifyPhone,
+    },
+    signUp: {
+      screen: SignUp,
+    },
+    main: {
+      screen: MainScreen,
     },
   },
   {

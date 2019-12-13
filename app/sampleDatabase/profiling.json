@@ -1,0 +1,65 @@
+{
+  "cat1": {
+    "name": "Your age range",
+    "levels": [
+      {
+        "id": "1",
+        "level": "20-25"
+      },
+      {
+        "id": "2",
+        "level": "26-32"
+      },
+      {
+        "id": "3",
+        "level": "33-40"
+      },
+      {
+        "id": "4",
+        "level": "40+"
+      }
+    ]
+  },
+  "cat2": {
+    "name": "Your job experience",
+    "levels": [
+      {
+        "id": "1",
+        "level": "<1 year"
+      },
+      {
+        "id": "2",
+        "level": "1-4 years"
+      },
+      {
+        "id": "3",
+        "level": "4-8 years"
+      },
+      {
+        "id": "4",
+        "level": "8+ years"
+      }
+    ]
+  },
+  "cat3": {
+    "name": "Your salary range",
+    "levels": [
+      {
+        "id": "1",
+        "level": "<50000"
+      },
+      {
+        "id": "2",
+        "level": "50000-75000"
+      },
+      {
+        "id": "3",
+        "level": "75000-125000"
+      },
+      {
+        "id": "4",
+        "level": "125000+"
+      }
+    ]
+  }
+}
