@@ -10,20 +10,19 @@ export default class Radioform extends Component {
   }
 
   render() {
-    if (this.props.index)
-      return (
-        <RadioForm
-          radio_props={this.props.answers}
-          onPress={value => {
-            this.props.update(this.props.index - 1, value);
-          }}
-          selectedButtonColor={'purple'}
-          selectedLabelColor={'puple'}
-          labelStyle={{fontSize: 20, color: '#00008b'}}
-          initial={-1}
-          buttonSize={20}
-        />
-      );
+    return (
+      <RadioForm
+        radio_props={this.props.answers}
+        onPress={value => {
+          this.props.update(this.props.index, value);
+        }}
+        selectedButtonColor={'purple'}
+        selectedLabelColor={'puple'}
+        labelStyle={{fontSize: 20, color: '#00008b'}}
+        initial={-1}
+        buttonSize={20}
+      />
+    );
   }
 }
 

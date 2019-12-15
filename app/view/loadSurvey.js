@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import Mcq from './../components/mcqRender';
+import TextView from './../components/textRender';
 import ProgressBar from './../components/progressBar';
 import database from '@react-native-firebase/database';
 import {firebase} from '@react-native-firebase/auth';
@@ -24,7 +25,7 @@ export default class QuestionScreen extends Component {
     this.state = {
       surveyId: this.props.navigation.state.params.ID,
       questions: [],
-      curQuIndex: 1,
+      curQuIndex: 0,
       answers: [],
       surveyDescribed: false,
       suveyDescription: '',
@@ -41,12 +42,12 @@ export default class QuestionScreen extends Component {
         if (this._isMounted) {
           var snapshot = JSON.parse(JSON.stringify(snapshot));
           var array = [];
-          for (ID in snapshot.questions) {
-            array.push(snapshot.questions[ID]);
+          for (var item of snapshot.Questions) {
+            array.push(item);
           }
           this.setState({suveyDescription: snapshot.description});
           this.setState({questions: array});
-          const arr = new Array(array.length - 1).fill(null);
+          const arr = new Array(array.length).fill(null);
           this.setState({answers: arr});
         }
       });
@@ -74,154 +75,157 @@ export default class QuestionScreen extends Component {
     Alert.alert('Submitted Successfully. Thank you!');
   }
 
+  QuestionView = () => {
+    const question = this.state.questions[this.state.curQuIndex];
+    switch (question.type) {
+      case 'mcq':
+        return (
+          <Mcq
+            q={question.content}
+            update={this.updateAnswers}
+            ind={this.state.curQuIndex}
+          />
+        );
+      case 'text':
+        return (
+          <TextView
+            q={question.content}
+            update={this.updateAnswers}
+            ind={this.state.curQuIndex}
+          />
+        );
+    }
+  };
   render() {
     console.log(this.state.answers);
-    if (this.state.questions == '') {
+    if (this.state.questions === '') {
       return <ActivityIndicatorCircle />;
     } else {
       if (this.state.surveyDescribed) {
-        var quizes = this.state.questions;
+        var quizzes = this.state.questions;
         var index = this.state.curQuIndex;
-        var progress = ((index - 1) / (quizes.length - 1)) * 100 + '%';
-        var initRadio = -1 - index;
-        if (index === 1) {
-          return (
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'column',
-                backgroundColor: themeColor,
-              }}>
-              <View style={styles.headerContainer}>
-                <Text style={styles.headerTitle}>
-                  Question {this.state.curQuIndex}
-                </Text>
+        var progress = (index / quizzes.length) * 100 + '%';
+        switch (index) {
+          case 0:
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'column',
+                  backgroundColor: themeColor,
+                }}>
+                <View style={styles.headerContainer}>
+                  <Text style={styles.headerTitle}>Question {index + 1}</Text>
+                </View>
+                <View style={[styles.progressBar, {flex: 1}]}>
+                  <ProgressBar prog={progress} />
+                </View>
+                <View style={[styles.body, {flex: 7}]}>
+                  <this.QuestionView />
+                </View>
+                <View style={styles.footerButton}>
+                  <TouchableOpacity
+                    style={styles.touchable}
+                    onPress={() => {
+                      this.setState({surveyDescribed: false});
+                    }}>
+                    <Text style={styles.touchtext}>Back</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.touchable}
+                    onPress={() => {
+                      this.props.navigation.navigate('main');
+                    }}>
+                    <Text style={styles.touchtext}>Home</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.touchable}
+                    onPress={() => {
+                      this.setState({curQuIndex: index + 1});
+                    }}>
+                    <Text style={styles.touchtext}>Next</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View style={[styles.progressBar, {flex: 1}]}>
-                <ProgressBar prog={progress} />
+            );
+          case quizzes.length - 1:
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'column',
+                  backgroundColor: themeColor,
+                }}>
+                <View style={styles.headerContainer}>
+                  <Text style={styles.headerTitle}>Question {index + 1}</Text>
+                </View>
+                <View style={[styles.progressBar, {flex: 1}]}>
+                  <ProgressBar prog={progress} />
+                </View>
+                <View style={[styles.body, {flex: 7}]}>
+                  <this.QuestionView />
+                </View>
+                <View style={styles.footerButton}>
+                  <TouchableOpacity
+                    style={styles.touchable}
+                    onPress={() => {
+                      this.setState({curQuIndex: index - 1});
+                    }}>
+                    <Text style={styles.touchtext}>Back</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.touchable}
+                    onPress={() => {
+                      this.submitAnswers();
+                      this.props.navigation.navigate('main');
+                    }}>
+                    <Text style={styles.touchtext}>Submit</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View style={[styles.body, {flex: 7}]}>
-                <Mcq
-                  q={quizes[this.state.curQuIndex]}
-                  update={this.updateAnswers}
-                  ind={index}
-                />
+            );
+          default:
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'column',
+                  backgroundColor: themeColor,
+                }}>
+                <View style={styles.headerContainer}>
+                  <Text style={styles.headerTitle}>Question {index + 1}</Text>
+                </View>
+                <View style={[styles.progressBar, {flex: 1}]}>
+                  <ProgressBar prog={progress} />
+                </View>
+                <View style={[styles.body, {flex: 7}]}>
+                  <this.QuestionView />
+                </View>
+                <View style={styles.footerButton}>
+                  <TouchableOpacity
+                    style={styles.touchable}
+                    onPress={() => {
+                      this.setState({curQuIndex: index - 1});
+                    }}>
+                    <Text style={styles.touchtext}>Back</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.touchable}
+                    onPress={() => {
+                      this.props.navigation.navigate('main');
+                    }}>
+                    <Text style={styles.touchtext}>Home</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.touchable}
+                    onPress={() => {
+                      this.setState({curQuIndex: index + 1});
+                    }}>
+                    <Text style={styles.touchtext}>Next</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View style={styles.footerButton}>
-                <TouchableOpacity
-                  style={styles.touchable}
-                  onPress={() => {
-                    this.setState({surveyDescribed: false});
-                  }}>
-                  <Text style={styles.touchtext}>Back</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.touchable}
-                  onPress={() => {
-                    this.props.navigation.navigate('main');
-                  }}>
-                  <Text style={styles.touchtext}>Home</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.touchable}
-                  onPress={() => {
-                    this.setState({curQuIndex: index + 1});
-                  }}>
-                  <Text style={styles.touchtext}>Next</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          );
-        } else if (index === quizes.length - 1) {
-          return (
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'column',
-                backgroundColor: themeColor,
-              }}>
-              <View style={styles.headerContainer}>
-                <Text style={styles.headerTitle}>
-                  Question {this.state.curQuIndex}
-                </Text>
-              </View>
-              <View style={[styles.progressBar, {flex: 1}]}>
-                <ProgressBar prog={progress} />
-              </View>
-              <View style={[styles.body, {flex: 7}]}>
-                <Mcq
-                  q={quizes[this.state.curQuIndex]}
-                  update={this.updateAnswers}
-                  ind={index}
-                />
-              </View>
-              <View style={styles.footerButton}>
-                <TouchableOpacity
-                  style={styles.touchable}
-                  onPress={() => {
-                    this.setState({curQuIndex: index - 1});
-                  }}>
-                  <Text style={styles.touchtext}>Back</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.touchable}
-                  onPress={() => {
-                    this.submitAnswers();
-                    this.props.navigation.navigate('main');
-                  }}>
-                  <Text style={styles.touchtext}>Submit</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          );
-        } else {
-          return (
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'column',
-                backgroundColor: themeColor,
-              }}>
-              <View style={styles.headerContainer}>
-                <Text style={styles.headerTitle}>
-                  Question {this.state.curQuIndex}
-                </Text>
-              </View>
-              <View style={[styles.progressBar, {flex: 1}]}>
-                <ProgressBar prog={progress} />
-              </View>
-              <View style={[styles.body, {flex: 7}]}>
-                <Mcq
-                  q={quizes[this.state.curQuIndex]}
-                  update={this.updateAnswers}
-                  ind={index}
-                />
-              </View>
-              <View style={styles.footerButton}>
-                <TouchableOpacity
-                  style={styles.touchable}
-                  onPress={() => {
-                    this.setState({curQuIndex: index - 1});
-                  }}>
-                  <Text style={styles.touchtext}>Back</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.touchable}
-                  onPress={() => {
-                    this.props.navigation.navigate('main');
-                  }}>
-                  <Text style={styles.touchtext}>Home</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.touchable}
-                  onPress={() => {
-                    this.setState({curQuIndex: index + 1});
-                  }}>
-                  <Text style={styles.touchtext}>Next</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          );
+            );
         }
       } else {
         return (

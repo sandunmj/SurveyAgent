@@ -1,22 +1,16 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import Radioform from './radioForm';
+import {StyleSheet, Text, View, TextInput} from 'react-native';
 
 const themeColor = '#4b0082';
+const themeColor2 = '#ffffff';
 
-var answers = [
-  {label: 'Strongly Disagree', value: 1},
-  {label: 'Disagree', value: 2},
-  {label: 'Neutral view', value: 3},
-  {label: 'Agree', value: 4},
-  {label: 'Strongly Agree', value: 5},
-];
-
-export default class Mcq extends Component {
+export default class TextView extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      answer: '',
+    };
   }
 
   render() {
@@ -26,10 +20,15 @@ export default class Mcq extends Component {
           <Text style={styles.qtext}>{this.props.q}</Text>
         </View>
         <View style={styles.answer}>
-          <Radioform
-            answers={answers}
-            index={this.props.ind}
-            update={this.props.update}
+          <TextInput
+            value={this.state.answer}
+            onChangeText={answer => {
+              this.setState({answer});
+              this.props.update(this.props.ind, answer);
+            }}
+            placeholder={'Answer'}
+            placeholderTextColor={themeColor}
+            style={styles.textInput}
           />
         </View>
       </View>
@@ -60,5 +59,17 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     flexWrap: 'wrap',
     color: '#00008b',
+  },
+  textInput: {
+    alignSelf: 'center',
+    textAlign: 'center',
+    width: 340,
+    height: 50,
+    padding: 0,
+    borderRadius: 25,
+    borderColor: themeColor,
+    borderWidth: 3,
+    marginBottom: 10,
+    backgroundColor: themeColor2,
   },
 });
