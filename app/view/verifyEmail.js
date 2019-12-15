@@ -27,15 +27,19 @@ export default class VerifyEmail extends React.Component<Props> {
     };
   }
 
-  handleVerifyEmail(){
+  handleVerifyEmail() {
     const email = this.state.email;
-    if (email === 'sandunmenaka@gmail.com'){
+    // if (email === 'sandunmenaka@gmail.com'){
+    //   this.props.navigation.navigate('verifyPhone', {
+    //     email: email
+    //   });
+    // }
+    if (true) {
       this.props.navigation.navigate('verifyPhone', {
-        email: email
+        email: email,
       });
-    }
-    else {
-      Alert.alert('Please enter a valid email!')
+    } else {
+      Alert.alert('Please enter a valid email!');
     }
   }
 

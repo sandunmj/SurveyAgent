@@ -10,6 +10,7 @@ import VerifyEmail from './app/view/verifyEmail';
 import VerifyPhone from './app/view/verifyPhone';
 import SignUp from './app/view/signUp';
 import MainScreen from './app/view/mainScreen';
+import SurveyScreen from './app/view/loadSurvey';
 
 const AppNavigator = createSwitchNavigator(
   {
@@ -30,6 +31,9 @@ const AppNavigator = createSwitchNavigator(
     },
     main: {
       screen: MainScreen,
+    },
+    surveyScreen: {
+      screen: SurveyScreen,
     },
   },
   {

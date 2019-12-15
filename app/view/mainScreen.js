@@ -4,7 +4,6 @@ import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {firebase} from '@react-native-firebase/auth';
 import ActivityIndicatorCircle from './../components/activityIndicator';
-// import FirebaseComponents from './components/FireBase';
 
 const themeColor = '#4b0082';
 const themeColor2 = '#ffffff';
@@ -67,43 +66,6 @@ const getPendingSurveyList = async function(uId) {
   };
 };
 
-const ShowSurveys = function(props) {
-  var idArray = props.idArray;
-  if (idArray.length) {
-    return (
-      <View style={styles.listContainer}>
-        <Text style={styles.normalText}>
-          You have {idArray.length} pending survey/s.
-        </Text>
-        <FlatList
-          style={styles.flatList}
-          data={props.idArray}
-          renderItem={({item, index}) => (
-            <View style={styles.listItem}>
-              <TouchableOpacity
-                style={styles.touchableLoad}
-                onPress={() => {
-                  this.props.navigation.navigate('SurveyScreen', {
-                    ID: item,
-                  });
-                }}
-                underlayColor="#4b0082">
-                <Text style={styles.touchText}>Enter survey #{index + 1}</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        />
-      </View>
-    );
-  } else {
-    return (
-      <Text style={styles.headerText}>
-        Congratulations! You have completed all the surveys.
-      </Text>
-    );
-  }
-};
-
 export default class MainScreen extends Component {
   _isMounted = false;
 
@@ -121,6 +83,45 @@ export default class MainScreen extends Component {
     });
   }
 
+  ShowSurveys = props => {
+    var idArray = props.idArray;
+    if (idArray.length) {
+      return (
+        <View style={styles.listContainer}>
+          <Text style={styles.normalText}>
+            You have {idArray.length} pending survey/s.
+          </Text>
+          <FlatList
+            style={styles.flatList}
+            data={props.idArray}
+            renderItem={({item, index}) => (
+              <View style={styles.listItem}>
+                <TouchableOpacity
+                  style={styles.touchableLoad}
+                  onPress={() => {
+                    this.props.navigation.navigate('surveyScreen', {
+                      ID: item,
+                    });
+                  }}
+                  underlayColor="#4b0082">
+                  <Text style={styles.touchText}>
+                    Enter survey #{index + 1}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <Text style={styles.headerText}>
+          Congratulations! You have completed all the surveys.
+        </Text>
+      );
+    }
+  };
+
   render() {
     if (!this.state.pendingSurveys) {
       return <ActivityIndicatorCircle text="loading surveys" />;
@@ -132,7 +133,7 @@ export default class MainScreen extends Component {
             <Text style={styles.headerText}>Hi, {this.state.firstName}</Text>
           </View>
 
-          <ShowSurveys idArray={surveyIDs} />
+          <this.ShowSurveys idArray={surveyIDs} />
 
           <View style={styles.buttonBox}>
             <TouchableOpacity

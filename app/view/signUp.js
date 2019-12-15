@@ -16,11 +16,26 @@ import {
   SafeAreaView,
   FlatList,
 } from 'react-native';
-import * as profileCategories from './../sampleDatabase/profiling.json';
 import ActivityIndicatorCircle from './../components/activityIndicator';
 
 const themeColor = '#4b0082';
 const themeColor2 = '#ffffff';
+
+const loadProfilingCategories = async function() {
+  var profileCategories = [];
+  await firebase
+    .database()
+    .ref('profiling/')
+    .once('value', snapshot => {
+      var snapshot = JSON.parse(JSON.stringify(snapshot));
+      profileCategories = snapshot;
+    });
+  var categories = [];
+  for (var cat of Object.keys(profileCategories)) {
+    categories.push(profileCategories[cat]);
+  }
+  return categories;
+};
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -30,15 +45,11 @@ export default class SignUp extends React.Component {
       password: '',
       profileAnswers: [],
       currentIndex: 0,
+      profileQuestions: null,
     };
-  }
-
-  loadProfilingCategories() {
-    var categories = [];
-    for (var key in profileCategories) {
-      categories.push(profileCategories[key]);
-    }
-    return categories;
+    loadProfilingCategories().then(x => {
+      this.setState({profileQuestions: x});
+    });
   }
 
   handleSignup = () => {
@@ -58,7 +69,6 @@ export default class SignUp extends React.Component {
             profileAnswers: this.state.profileAnswers,
           });
         console.log('Logged in');
-        // this.props.navigation.navigate('Main');
       })
       .catch(error => {
         switch (error.code) {
@@ -98,10 +108,12 @@ export default class SignUp extends React.Component {
   };
 
   render() {
-    const profileQuestions = this.loadProfilingCategories();
+    const profileQuestions = this.state.profileQuestions;
+
     if (profileQuestions) {
+      console.log(profileQuestions);
       switch (this.state.currentIndex) {
-        case profileQuestions.length - 1:
+        case profileQuestions.length:
           return (
             <View style={styles.container}>
               <View style={styles.headerTextBox}>
