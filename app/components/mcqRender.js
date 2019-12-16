@@ -15,8 +15,6 @@ var answers = [
 export default class Mcq extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {};
   }
 
   render() {

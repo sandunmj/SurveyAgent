@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Mcq from './../components/mcqRender';
 import TextView from './../components/textRender';
+import ParagraphView from './../components/paragraphRenderer';
 import ProgressBar from './../components/progressBar';
 import database from '@react-native-firebase/database';
 import {firebase} from '@react-native-firebase/auth';
@@ -42,7 +43,7 @@ export default class QuestionScreen extends Component {
         if (this._isMounted) {
           var snapshot = JSON.parse(JSON.stringify(snapshot));
           var array = [];
-          for (var item of snapshot.Questions) {
+          for (var item of snapshot.questions) {
             array.push(item);
           }
           this.setState({suveyDescription: snapshot.description});
@@ -92,6 +93,15 @@ export default class QuestionScreen extends Component {
             q={question.content}
             update={this.updateAnswers}
             ind={this.state.curQuIndex}
+          />
+        );
+      case 'paragraph':
+        return (
+          <ParagraphView
+            paragraph={question.paragraph}
+            questions={question.questions}
+            index={this.state.curQuIndex}
+            update={this.updateAnswers}
           />
         );
     }

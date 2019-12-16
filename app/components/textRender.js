@@ -13,6 +13,12 @@ export default class TextView extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.ind !== prevProps.ind) {
+      this.setState({answer: ''});
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -67,7 +73,7 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 0,
     borderRadius: 25,
-    borderColor: themeColor,
+    borderColor: themeColor2,
     borderWidth: 3,
     marginBottom: 10,
     backgroundColor: themeColor2,
