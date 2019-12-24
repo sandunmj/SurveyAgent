@@ -2,7 +2,10 @@
  * @format
  * @flow
  */
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import React from 'react';
 import {firebase} from '@react-native-firebase/auth';
 import {
@@ -70,12 +73,12 @@ export default class VerifyEmail extends React.Component<Props> {
           </TouchableOpacity>
           <View style={styles.footer}>
             <TouchableOpacity
-              style={styles.backButton}
+              style={styles.touchable}
               onPress={() => {
                 this.props.navigation.navigate('signIn');
               }}
               underlayColor={themeColor}>
-              <Text style={styles.backText}>Back</Text>
+              <Text style={styles.touchText}>Back</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -84,6 +87,10 @@ export default class VerifyEmail extends React.Component<Props> {
   }
 }
 
+function resize(inpSize) {
+  let outSize = (wp('100%') * inpSize) / 411;
+  return outSize;
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -94,75 +101,60 @@ const styles = StyleSheet.create({
   },
   headerTextBox: {
     flex: 2,
-    justifyContent: 'center',
-    backgroundColor: themeColor2,
+    alignItems: 'center',
     justifyContent: 'flex-end',
+    backgroundColor: themeColor2,
+    width: '100%',
   },
   headerText: {
     fontWeight: 'bold',
-    textAlign: 'left',
+    textAlign: 'center',
     color: themeColor,
-    fontSize: 20,
+    fontSize: resize(25),
   },
   textInputBox: {
     flex: 1,
+    alignItems: 'center',
     justifyContent: 'flex-end',
     backgroundColor: themeColor2,
+    width: '100%',
   },
   textInput: {
-    alignSelf: 'center',
     textAlign: 'center',
-    width: 340,
-    height: 50,
-    padding: 0,
-    borderRadius: 25,
+    borderRadius: resize(25),
     borderColor: themeColor,
-    borderWidth: 3,
-    marginBottom: 10,
+    borderWidth: resize(3),
+    marginBottom: resize(10),
     backgroundColor: themeColor2,
+    width: '80%',
+    aspectRatio: 6,
   },
   buttonBox: {
     flex: 2,
     justifyContent: 'flex-start',
+    alignItems: 'center',
     backgroundColor: themeColor2,
-    padding: 10,
+    padding: resize(10),
+    width: '100%',
   },
   touchable: {
-    alignSelf: 'center',
-    height: 40,
-    width: 120,
-    padding: 0,
-    borderRadius: 25,
+    width: '38%',
+    aspectRatio: 3.5,
+    borderRadius: resize(25),
     backgroundColor: themeColor,
     borderColor: themeColor,
   },
   touchText: {
-    padding: 10,
+    fontSize: resize(15),
+    padding: resize(10),
     textAlign: 'center',
     color: themeColor2,
-  },
-  text: {
-    color: themeColor,
-    fontSize: 20,
   },
   footer: {
     flex: 1,
-    justifyContent: 'flex-end',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: themeColor2,
-    padding: 10,
-  },
-  backButton: {
-    alignSelf: 'center',
-    height: 40,
-    width: 120,
-    padding: 0,
-    borderRadius: 25,
-    backgroundColor: themeColor,
-    borderColor: themeColor,
-  },
-  backText: {
-    padding: 10,
-    textAlign: 'center',
-    color: themeColor2,
+    width: '100%',
   },
 });

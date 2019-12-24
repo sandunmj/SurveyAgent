@@ -2,7 +2,10 @@
  * @format
  * @flow
  */
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import React from 'react';
 import {ActivityIndicator, Text, View, StyleSheet} from 'react-native';
 
@@ -22,6 +25,13 @@ export default class ActivityIndicatorCircle extends React.Component<Props> {
     );
   }
 }
+
+function resize(inpSize) {
+  let outSize = (wp('100%') * inpSize) / 411;
+  console.log(outSize);
+  return outSize;
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -31,6 +41,6 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'white',
-    fontSize: 30,
+    fontSize: resize(30),
   },
 });

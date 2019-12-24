@@ -2,10 +2,14 @@
  * @format
  * @flow
  */
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import React from 'react';
 import {firebase} from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
+// import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {
   StyleSheet,
   Text,
@@ -66,9 +70,10 @@ export default class SignUp extends React.Component {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             email: this.state.email,
-            profileAnswers: this.state.profileAnswers,
+            // profileAnswers: this.state.profileAnswers,
           });
         console.log('Logged in');
+        Alert.alert('logged in');
       })
       .catch(error => {
         switch (error.code) {
@@ -86,114 +91,69 @@ export default class SignUp extends React.Component {
       });
   };
 
-  Item = (item, quiz) => {
-    var profileAnswers = this.state.profileAnswers;
+  render() {
     return (
-      <View style={styles.buttonBox}>
-        <TouchableOpacity
-          style={styles.touchable}
-          onPress={() => {
-            profileAnswers.push({
-              quiz: quiz,
-              level: item.level,
-            });
-            this.setState({profileAnswers: profileAnswers});
-            this.setState({currentIndex: this.state.currentIndex + 1});
-          }}
-          underlayColor={themeColor}>
-          <Text style={styles.touchText}>{item.level}</Text>
-        </TouchableOpacity>
+      <View style={styles.container}>
+        <View style={styles.headerTextBox}>
+          <Text style={styles.headerText}>Enter details</Text>
+        </View>
+        <View style={styles.textInputBox}>
+          <TextInput
+            value={this.state.firstName}
+            onChangeText={firstName => this.setState({firstName})}
+            placeholder={'First Name'}
+            placeholderTextColor={themeColor}
+            style={styles.textInput}
+          />
+          <TextInput
+            value={this.state.lastName}
+            onChangeText={lastName => this.setState({lastName})}
+            placeholder={'Last Name'}
+            placeholderTextColor={themeColor}
+            style={styles.textInput}
+          />
+          <TextInput
+            value={this.state.password}
+            onChangeText={password => this.setState({password})}
+            placeholder={'Password'}
+            secureTextEntry={true}
+            placeholderTextColor={themeColor}
+            style={styles.textInput}
+          />
+          <View style={styles.buttonBox}>
+            <TouchableOpacity
+              style={styles.touchable}
+              onPress={() => {
+                if (!this.state.email || !this.state.password) {
+                  Alert.alert('Empty inputs found!');
+                } else {
+                  console.log('inputs ok');
+                  this.handleSignup();
+                }
+              }}
+              underlayColor={themeColor}>
+              <Text style={styles.touchText}>SIGN UP</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.touchable}
+              onPress={() => {
+                this.props.navigation.navigate('signIn');
+              }}
+              underlayColor={themeColor}>
+              <Text style={styles.touchText}>CANCEL</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     );
-  };
-
-  render() {
-    const profileQuestions = this.state.profileQuestions;
-
-    if (profileQuestions) {
-      console.log(profileQuestions);
-      switch (this.state.currentIndex) {
-        case profileQuestions.length:
-          return (
-            <View style={styles.container}>
-              <View style={styles.headerTextBox}>
-                <Text style={styles.headerText}>Enter details.</Text>
-              </View>
-              <View style={styles.textInputBox}>
-                <TextInput
-                  value={this.state.firstName}
-                  onChangeText={firstName => this.setState({firstName})}
-                  placeholder={'First Name'}
-                  placeholderTextColor={themeColor}
-                  style={styles.textInput}
-                />
-                <TextInput
-                  value={this.state.lastName}
-                  onChangeText={lastName => this.setState({lastName})}
-                  placeholder={'Last Name'}
-                  placeholderTextColor={themeColor}
-                  style={styles.textInput}
-                />
-                <TextInput
-                  value={this.state.password}
-                  onChangeText={password => this.setState({password})}
-                  placeholder={'Password'}
-                  secureTextEntry={true}
-                  placeholderTextColor={themeColor}
-                  style={styles.textInput}
-                />
-                <View style={styles.buttonBox}>
-                  <TouchableOpacity
-                    style={styles.touchable}
-                    onPress={() => {
-                      if (!this.state.email || !this.state.password) {
-                        Alert.alert('Empty inputs found!');
-                      } else {
-                        console.log('inputs ok');
-                        this.handleSignup();
-                        Alert.alert('logged in');
-                      }
-                    }}
-                    underlayColor={themeColor}>
-                    <Text style={styles.touchText}>SIGN UP</Text>
-                  </TouchableOpacity>
-                  <View style={styles.buttonBox}>
-                    <TouchableOpacity
-                      style={styles.touchable}
-                      onPress={() => {
-                        this.props.navigation.navigate('signIn');
-                      }}
-                      underlayColor={themeColor}>
-                      <Text style={styles.touchText}>CANCEL</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </View>
-          );
-        default:
-          const categoryData = profileQuestions[this.state.currentIndex];
-          return (
-            <View style={styles.container}>
-              <View style={styles.headerTextBox}>
-                <Text style={styles.headerText}>{categoryData.name}</Text>
-              </View>
-              <SafeAreaView style={styles.container}>
-                <FlatList
-                  data={categoryData.levels}
-                  renderItem={({item}) => this.Item(item, categoryData.name)}
-                  keyExtractor={item => item.id}
-                />
-              </SafeAreaView>
-            </View>
-          );
-      }
-    } else {
-      return <ActivityIndicatorCircle text="Loading" />;
-    }
   }
 }
 
+function resize(inpSize) {
+  let outSize = (wp('100%') * inpSize) / 411;
+  return outSize;
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -204,77 +164,57 @@ const styles = StyleSheet.create({
   },
   headerTextBox: {
     flex: 1,
-    width: '80%',
-    alignSelf: 'center',
-    backgroundColor: themeColor2,
+    alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: themeColor2,
+    width: '100%',
   },
   headerText: {
-    width: '100%',
     fontWeight: 'bold',
     textAlign: 'center',
     color: themeColor,
-    fontSize: 20,
+    fontSize: resize(25),
   },
   textInputBox: {
-    flex: 1,
+    flex: 2,
+    alignItems: 'center',
     justifyContent: 'flex-end',
     backgroundColor: themeColor2,
+    width: '100%',
   },
   textInput: {
-    alignSelf: 'center',
     textAlign: 'center',
-    width: 340,
-    height: 50,
-    padding: 0,
-    borderRadius: 25,
+    borderRadius: resize(25),
     borderColor: themeColor,
-    borderWidth: 3,
-    marginBottom: 10,
+    borderWidth: resize(3),
+    marginBottom: resize(10),
     backgroundColor: themeColor2,
+    width: '80%',
+    aspectRatio: 6,
   },
   buttonBox: {
-    flex: 5,
-    justifyContent: 'flex-start',
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'space-around',
     backgroundColor: themeColor2,
-    padding: 10,
+    padding: resize(12),
+    width: '100%',
   },
   touchable: {
-    alignSelf: 'center',
-    height: 40,
-    width: 120,
-    padding: 0,
-    borderRadius: 25,
+    width: '38%',
+    aspectRatio: 3.5,
+    borderRadius: resize(25),
     backgroundColor: themeColor,
     borderColor: themeColor,
   },
   touchText: {
-    padding: 10,
+    fontSize: resize(15),
+    padding: resize(10),
     textAlign: 'center',
     color: themeColor2,
   },
   text: {
     color: themeColor,
-    fontSize: 20,
-  },
-  footer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: themeColor2,
-    padding: 10,
-  },
-  backButton: {
-    alignSelf: 'center',
-    height: 40,
-    width: 120,
-    padding: 0,
-    borderRadius: 25,
-    backgroundColor: themeColor,
-    borderColor: themeColor,
-  },
-  backText: {
-    padding: 10,
-    textAlign: 'center',
-    color: themeColor2,
+    fontSize: resize(20),
   },
 });

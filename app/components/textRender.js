@@ -1,5 +1,9 @@
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, TextInput} from 'react-native';
+import {StyleSheet, Text, View, TextInput, ScrollView} from 'react-native';
 
 const themeColor = '#4b0082';
 const themeColor2 = '#ffffff';
@@ -14,32 +18,39 @@ export default class TextView extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.ind !== prevProps.ind) {
+    if (this.props.index !== prevProps.index) {
       this.setState({answer: ''});
     }
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={{alignSelf: 'center'}}>
-          <Text style={styles.qtext}>{this.props.q}</Text>
-        </View>
-        <View style={styles.answer}>
-          <TextInput
-            value={this.state.answer}
-            onChangeText={answer => {
-              this.setState({answer});
-              this.props.update(this.props.ind, answer);
-            }}
-            placeholder={'Answer'}
-            placeholderTextColor={themeColor}
-            style={styles.textInput}
-          />
-        </View>
+      <View>
+        <ScrollView>
+          <View style={{alignSelf: 'center'}}>
+            <Text style={styles.qtext}>{this.props.q}</Text>
+          </View>
+          <View style={styles.answer}>
+            <TextInput
+              value={this.state.answer}
+              onChangeText={answer => {
+                this.setState({answer});
+                this.props.update(this.props.index, answer);
+              }}
+              placeholder={'Answer'}
+              placeholderTextColor={themeColor}
+              style={styles.textInput}
+            />
+          </View>
+        </ScrollView>
       </View>
     );
   }
+}
+
+function resize(inpSize) {
+  let outSize = (wp('100%') * inpSize) / 411;
+  return outSize;
 }
 
 const styles = StyleSheet.create({
@@ -53,10 +64,10 @@ const styles = StyleSheet.create({
     height: 'auto',
   },
   qtext: {
-    padding: 20,
+    padding: resize(20),
     fontWeight: 'bold',
-    fontSize: 30,
-    marginVertical: 10,
+    fontSize: resize(25),
+    marginVertical: resize(10),
     color: '#00008b',
   },
   answer: {
@@ -67,15 +78,13 @@ const styles = StyleSheet.create({
     color: '#00008b',
   },
   textInput: {
-    alignSelf: 'center',
     textAlign: 'center',
-    width: 340,
-    height: 50,
-    padding: 0,
-    borderRadius: 25,
-    borderColor: themeColor2,
+    borderRadius: resize(25),
+    borderColor: themeColor,
     borderWidth: 3,
     marginBottom: 10,
     backgroundColor: themeColor2,
+    width: '80%',
+    aspectRatio: 4,
   },
 });

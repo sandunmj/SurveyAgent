@@ -1,5 +1,9 @@
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import Radioform from './radioForm';
 
 const themeColor = '#4b0082';
@@ -18,44 +22,51 @@ export default class Mcq extends Component {
   }
 
   render() {
+    console.log(this.props.index);
     return (
       <View style={styles.container}>
-        <View style={{alignSelf: 'center'}}>
-          <Text style={styles.qtext}>{this.props.q}</Text>
-        </View>
-        <View style={styles.answer}>
-          <Radioform
-            answers={answers}
-            index={this.props.ind}
-            update={this.props.update}
-          />
-        </View>
+        <ScrollView>
+          <View style={styles.answer}>
+            <Text style={styles.question}>{this.props.q}</Text>
+
+            <Radioform
+              answers={answers}
+              index={this.props.index}
+              update={this.props.update}
+            />
+          </View>
+        </ScrollView>
       </View>
     );
   }
 }
 
+function resize(inpSize) {
+  let outSize = (wp('100%') * inpSize) / 411;
+  return outSize;
+}
+
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
-    borderRadius: 15,
-    marginBottom: 5,
-    height: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   question: {
-    height: 'auto',
-  },
-  qtext: {
-    padding: 20,
+    alignSelf: 'center',
+    padding: resize(20),
     fontWeight: 'bold',
-    fontSize: 30,
-    marginVertical: 10,
+    fontSize: resize(25),
+    marginVertical: resize(10),
     color: '#00008b',
   },
   answer: {
-    padding: 20,
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: resize(20),
     alignSelf: 'center',
-    paddingLeft: 15,
+    paddingLeft: resize(15),
     flexWrap: 'wrap',
     color: '#00008b',
   },

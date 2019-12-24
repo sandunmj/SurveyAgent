@@ -1,3 +1,7 @@
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, FlatList} from 'react-native';
 import auth from '@react-native-firebase/auth';
@@ -92,7 +96,6 @@ export default class MainScreen extends Component {
             You have {idArray.length} pending survey/s.
           </Text>
           <FlatList
-            style={styles.flatList}
             data={props.idArray}
             renderItem={({item, index}) => (
               <View style={styles.listItem}>
@@ -115,7 +118,7 @@ export default class MainScreen extends Component {
       );
     } else {
       return (
-        <Text style={styles.headerText}>
+        <Text style={styles.noSurveyText}>
           Congratulations! You have completed all the surveys.
         </Text>
       );
@@ -132,10 +135,10 @@ export default class MainScreen extends Component {
           <View style={styles.headerTextBox}>
             <Text style={styles.headerText}>Hi, {this.state.firstName}</Text>
           </View>
-
-          <this.ShowSurveys idArray={surveyIDs} />
-
-          <View style={styles.buttonBox}>
+          <View style={styles.body}>
+            <this.ShowSurveys idArray={surveyIDs} />
+          </View>
+          <View style={styles.footer}>
             <TouchableOpacity
               style={styles.touchable}
               onPress={() => {
@@ -151,6 +154,11 @@ export default class MainScreen extends Component {
   }
 }
 
+function resize(inpSize) {
+  let outSize = (wp('100%') * inpSize) / 411;
+  return outSize;
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -160,84 +168,78 @@ const styles = StyleSheet.create({
     backgroundColor: themeColor2,
   },
   headerTextBox: {
-    flex: 2,
-    width: '80%',
-    alignSelf: 'center',
-    backgroundColor: themeColor2,
+    flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: themeColor2,
+    width: '100%',
   },
   headerText: {
-    width: '100%',
     fontWeight: 'bold',
     textAlign: 'center',
     color: themeColor,
-    fontSize: 20,
+    fontSize: resize(25),
   },
-  buttonBox: {
+  body: {
     flex: 5,
+    alignItems: 'center',
     justifyContent: 'flex-start',
     backgroundColor: themeColor2,
-    padding: 10,
+    width: '100%',
+  },
+  footer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: themeColor2,
+    width: '100%',
+  },
+  noSurveyText: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: themeColor,
+    fontSize: resize(20),
   },
   touchable: {
-    alignSelf: 'center',
-    height: 40,
-    width: 120,
-    padding: 0,
-    borderRadius: 25,
+    width: '38%',
+    aspectRatio: 3.5,
+    borderRadius: resize(25),
     backgroundColor: themeColor,
     borderColor: themeColor,
   },
-  input: {
-    alignSelf: 'center',
-    textAlign: 'center',
-    width: 380,
-    height: 50,
-    padding: 0,
-    borderRadius: 25,
-    borderColor: '#4b0082',
-    borderWidth: 3,
-    marginBottom: 10,
-  },
-  touchableLoad: {
-    height: 40,
-    width: 300,
-    padding: 0,
-    borderRadius: 25,
-    backgroundColor: '#00008b',
-    borderColor: '#4b0082',
-  },
   touchText: {
-    padding: 10,
+    fontSize: resize(15),
+    padding: resize(10),
     textAlign: 'center',
     color: themeColor2,
   },
-  normalText: {
+  touchableLoad: {
     width: '80%',
+    aspectRatio: 6,
+    borderRadius: resize(25),
+    backgroundColor: '#00008b',
+    borderColor: '#4b0082',
+  },
+  normalText: {
+    width: '100%',
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'black',
-    fontSize: 15,
-  },
-  text: {
-    padding: 0,
-    textAlign: 'left',
-    color: themeColor,
-    fontSize: 22,
+    fontSize: resize(15),
   },
   listItem: {
     alignSelf: 'center',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
+    padding: resize(10),
+    width: '100%',
   },
   listContainer: {
-    flex: 16,
-    width: '80%',
+    width: '100%',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     backgroundColor: themeColor2,
   },
 });

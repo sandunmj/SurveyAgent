@@ -1,3 +1,7 @@
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import React, {Component} from 'react';
 import {
   StyleSheet,
@@ -8,6 +12,8 @@ import {
   ScrollView,
 } from 'react-native';
 // import Slider from '@react-native-community/slider';
+import Mcq from './mcqParagraph';
+import {SafeAreaView} from 'react-navigation';
 const themeColor = '#4b0082';
 const themeColor2 = '#ffffff';
 
@@ -40,19 +46,10 @@ export default class ParagraphView extends Component {
               data={this.props.questions}
               renderItem={({item, index}) => (
                 <View>
-                  <View style={styles.listItem}>
-                    <Text style={styles.normalText}>{item}</Text>
-                  </View>
-
-                  <Slider
-                    style={{}}
-                    minimumValue={0}
-                    maximumValue={1}
-                    minimumTrackTintColor={themeColor}
-                    maximumTrackTintColor="#00008b"
-                    onSlidingComplete={value => {
-                      this.updateAnswers(index, value);
-                    }}
+                  <Mcq
+                    q={item.question}
+                    update={this.updateAnswers}
+                    ind={index}
                   />
                 </View>
               )}
@@ -62,6 +59,11 @@ export default class ParagraphView extends Component {
       </View>
     );
   }
+}
+
+function resize(inpSize) {
+  let outSize = (wp('100%') * inpSize) / 411;
+  return outSize;
 }
 
 const styles = StyleSheet.create({

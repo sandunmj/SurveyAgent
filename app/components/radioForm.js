@@ -1,3 +1,7 @@
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import React, {Component} from 'react';
 import {View, Text, ActivityIndicator, StyleSheet} from 'react-native';
 import RadioForm, {
@@ -24,18 +28,6 @@ export default class Radioform extends Component {
 
   render() {
     return (
-      // <RadioForm
-      //   radio_props={this.props.answers}
-      //   onPress={value => {
-      //     this.props.update(this.props.index, value);
-      //   }}
-      //   selectedButtonColor={'purple'}
-      //   selectedLabelColor={'puple'}
-      //   labelStyle={{fontSize: 20, color: '#00008b'}}
-      //   initial={-1}
-      //   isSelected={this.state.isSelected}
-      //   buttonSize={20}
-      // />
       <RadioForm formHorizontal={false} animation={true}>
         {/* To create radio buttons, loop through your array of options */}
         {this.props.answers.map((obj, i) => (
@@ -52,8 +44,8 @@ export default class Radioform extends Component {
               borderWidth={1}
               buttonInnerColor={'#00008b'}
               buttonOuterColor={'#2196f3'}
-              buttonSize={17}
-              buttonOuterSize={30}
+              buttonSize={resize(13)}
+              buttonOuterSize={resize(25)}
               buttonStyle={{}}
               buttonWrapStyle={{marginLeft: 10}}
             />
@@ -62,7 +54,7 @@ export default class Radioform extends Component {
               index={i}
               onPress={() => null}
               labelHorizontal={true}
-              labelStyle={{fontSize: 20, color: '#00008b'}}
+              labelStyle={{fontSize: resize(20), color: '#00008b'}}
               labelWrapStyle={{}}
             />
           </RadioButton>
@@ -72,28 +64,7 @@ export default class Radioform extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    borderRadius: 15,
-    marginBottom: 5,
-    height: '100%',
-  },
-  question: {
-    height: 'auto',
-  },
-  qtext: {
-    padding: 20,
-    fontWeight: 'bold',
-    fontSize: 30,
-    marginVertical: 10,
-    color: '#00008b',
-  },
-  answer: {
-    padding: 20,
-    alignSelf: 'center',
-    paddingLeft: 15,
-    flexWrap: 'wrap',
-    color: '#00008b',
-  },
-});
+function resize(inpSize) {
+  let outSize = (wp('100%') * inpSize) / 411;
+  return outSize;
+}
