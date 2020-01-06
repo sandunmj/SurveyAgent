@@ -8,6 +8,7 @@ import {
 } from 'react-native-responsive-screen';
 import React from 'react';
 import {firebase} from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 import {
   StyleSheet,
   Text,
@@ -20,6 +21,22 @@ import {
 const themeColor = '#4b0082';
 const themeColor2 = '#ffffff';
 
+var handleVerifyEmail = async function(email) {
+  let state = null;
+  await fetch(
+    `https://us-central1-surveyapp-42b73.cloudfunctions.net/emailVerify?email=${email}`,
+  )
+    .then(res => res.json())
+    .then(res => (state = res));
+  console.log(state);
+  if (state) {
+    this.props.navigation.navigate('verifyPhone', {
+      email: email,
+    });
+  } else {
+    Alert.alert('Please enter a valid email!');
+  }
+};
 type Props = {};
 export default class VerifyEmail extends React.Component<Props> {
   constructor(props) {
@@ -28,22 +45,7 @@ export default class VerifyEmail extends React.Component<Props> {
       email: '',
       password: '',
     };
-  }
-
-  handleVerifyEmail() {
-    const email = this.state.email;
-    // if (email === 'sandunmenaka@gmail.com'){
-    //   this.props.navigation.navigate('verifyPhone', {
-    //     email: email
-    //   });
-    // }
-    if (true) {
-      this.props.navigation.navigate('verifyPhone', {
-        email: email,
-      });
-    } else {
-      Alert.alert('Please enter a valid email!');
-    }
+    this.verifyEmail = handleVerifyEmail.bind(this);
   }
 
   render() {
@@ -66,7 +68,7 @@ export default class VerifyEmail extends React.Component<Props> {
           <TouchableOpacity
             style={styles.touchable}
             onPress={() => {
-              this.handleVerifyEmail();
+              this.verifyEmail(this.state.email);
             }}
             underlayColor={themeColor}>
             <Text style={styles.touchText}>Enter</Text>

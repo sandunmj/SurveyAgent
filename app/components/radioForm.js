@@ -54,7 +54,7 @@ export default class Radioform extends Component {
               index={i}
               onPress={() => null}
               labelHorizontal={true}
-              labelStyle={{fontSize: resize(20), color: '#00008b'}}
+              labelStyle={{fontSize: resize(20), color: '#20b2aa'}}
               labelWrapStyle={{}}
             />
           </RadioButton>

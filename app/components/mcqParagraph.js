@@ -76,7 +76,6 @@ export default class Mcq extends Component {
 
 function resize(inpSize) {
   let outSize = (wp('100%') * inpSize) / 411;
-  console.log(outSize);
   return outSize;
 }
 

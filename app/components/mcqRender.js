@@ -22,13 +22,12 @@ export default class Mcq extends Component {
   }
 
   render() {
-    console.log(this.props.index);
     return (
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.answer}>
             <Text style={styles.question}>{this.props.q}</Text>
-
+            <Text> </Text>
             <Radioform
               answers={answers}
               index={this.props.index}
@@ -50,24 +49,23 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-around',
+    width: '100%',
   },
   question: {
-    alignSelf: 'center',
-    padding: resize(20),
+    textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: resize(25),
+    fontSize: resize(22),
     marginVertical: resize(10),
-    color: '#00008b',
+    color: '#006400',
   },
   answer: {
-    width: '100%',
+    width: '95%',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: resize(20),
     alignSelf: 'center',
-    paddingLeft: resize(15),
-    flexWrap: 'wrap',
-    color: '#00008b',
+    justifyContent: 'center',
+    // flexWrap: 'wrap',
+    // color: '#00008b',
   },
 });

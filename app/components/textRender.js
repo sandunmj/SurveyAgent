@@ -25,22 +25,24 @@ export default class TextView extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.body}>
         <ScrollView>
-          <View style={{alignSelf: 'center'}}>
-            <Text style={styles.qtext}>{this.props.q}</Text>
-          </View>
-          <View style={styles.answer}>
-            <TextInput
-              value={this.state.answer}
-              onChangeText={answer => {
-                this.setState({answer});
-                this.props.update(this.props.index, answer);
-              }}
-              placeholder={'Answer'}
-              placeholderTextColor={themeColor}
-              style={styles.textInput}
-            />
+          <View style={styles.container}>
+            <View>
+              <Text style={styles.questionText}>{this.props.q}</Text>
+            </View>
+            <View style={styles.answer}>
+              <TextInput
+                value={this.state.answer}
+                onChangeText={answer => {
+                  this.setState({answer});
+                  this.props.update(this.props.index, answer);
+                }}
+                placeholder={'Answer'}
+                placeholderTextColor={themeColor}
+                style={styles.textInput}
+              />
+            </View>
           </View>
         </ScrollView>
       </View>
@@ -54,37 +56,42 @@ function resize(inpSize) {
 }
 
 const styles = StyleSheet.create({
+  body: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: '90%',
+  },
   container: {
-    backgroundColor: 'white',
-    borderRadius: 15,
-    marginBottom: 5,
-    height: '100%',
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    width: '100%',
+    aspectRatio: 1,
   },
-  question: {
-    height: 'auto',
-  },
-  qtext: {
-    padding: resize(20),
+  questionText: {
+    // padding: resize(20),
+    textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: resize(25),
+    fontSize: resize(20),
     marginVertical: resize(10),
     color: '#00008b',
   },
   answer: {
-    padding: 20,
-    alignSelf: 'center',
-    paddingLeft: 15,
+    width: '100%',
+    alignItems: 'center',
+    flexDirection: 'column',
     flexWrap: 'wrap',
     color: '#00008b',
   },
   textInput: {
     textAlign: 'center',
-    borderRadius: resize(25),
-    borderColor: themeColor,
+    borderRadius: resize(20),
+    borderColor: 'aqua',
     borderWidth: 3,
     marginBottom: 10,
-    backgroundColor: themeColor2,
-    width: '80%',
-    aspectRatio: 4,
+    backgroundColor: 'aqua',
+    width: '100%',
+    aspectRatio: 7,
   },
 });

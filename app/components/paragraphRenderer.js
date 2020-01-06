@@ -3,17 +3,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  Slider,
-  ScrollView,
-} from 'react-native';
-// import Slider from '@react-native-community/slider';
+import {StyleSheet, Text, View, FlatList, ScrollView} from 'react-native';
 import Mcq from './mcqParagraph';
-import {SafeAreaView} from 'react-navigation';
 const themeColor = '#4b0082';
 const themeColor2 = '#ffffff';
 
@@ -36,24 +27,26 @@ export default class ParagraphView extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <View style={styles.paragraph}>
-            <Text style={styles.qtext}>{this.props.paragraph}</Text>
-          </View>
+          <View style={styles.body}>
+            <View style>
+              <Text style={styles.questionText}>{this.props.paragraph}</Text>
+            </View>
 
-          <View style={styles.questionView}>
-            <FlatList
-              style={styles.flatList}
-              data={this.props.questions}
-              renderItem={({item, index}) => (
-                <View>
-                  <Mcq
-                    q={item.question}
-                    update={this.updateAnswers}
-                    ind={index}
-                  />
-                </View>
-              )}
-            />
+            <View style={styles.questionView}>
+              <FlatList
+                style={styles.flatList}
+                data={this.props.questions}
+                renderItem={({item, index}) => (
+                  <View>
+                    <Mcq
+                      q={item.question}
+                      update={this.updateAnswers}
+                      ind={index}
+                    />
+                  </View>
+                )}
+              />
+            </View>
           </View>
         </ScrollView>
       </View>
@@ -71,7 +64,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 15,
     marginBottom: 5,
-    height: '100%',
+    width: '100%',
+  },
+  body: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: '100%',
   },
   paragraph: {
     flex: 2,
@@ -79,18 +78,15 @@ const styles = StyleSheet.create({
   questionView: {
     flex: 3,
   },
-  qtext: {
-    padding: 20,
-    fontSize: 20,
+  questionText: {
+    textAlign: 'center',
+    fontSize: resize(22),
     marginVertical: 10,
     color: '#00008b',
-  },
-  slider: {
-    width: '90%',
-    height: 40,
+    fontWeight: 'bold',
   },
   normalText: {
-    width: '80%',
+    width: '100%',
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'black',

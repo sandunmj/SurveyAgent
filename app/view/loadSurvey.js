@@ -122,7 +122,6 @@ export default class QuestionScreen extends Component {
 
   QuestionView = () => {
     const question = this.state.questions[this.state.curQuIndex];
-    console.log(question);
     switch (question.type) {
       case 'MCQ':
         return (
@@ -286,7 +285,6 @@ export default class QuestionScreen extends Component {
           const categoryData = this.state.profiling[
             this.state.currentProfilingIndex
           ];
-          console.log(this.state.profiling);
           return (
             <View style={containers.container}>
               <View style={containers.headerTextBox}>
@@ -386,7 +384,7 @@ export default class QuestionScreen extends Component {
               <View style={containers.headerTextBox}>
                 <Text style={containers.headerText}>Survey Description</Text>
               </View>
-              <View style={containers.body}>
+              <View style={description.body}>
                 <Text style={description.text}>{this.state.description}</Text>
               </View>
               <View style={containers.footer}>
@@ -415,8 +413,8 @@ export default class QuestionScreen extends Component {
               <View style={containers.headerTextBox}>
                 <Text style={containers.headerText}>Finish</Text>
               </View>
-              <View style={containers.body}>
-                <Text style={description.text}>
+              <View style={thank.body}>
+                <Text style={thank.text}>
                   You have successfully submitted the answers for the survey.
                   Thank you!
                 </Text>
@@ -445,9 +443,35 @@ function resize(inpSize) {
 const description = StyleSheet.create({
   text: {
     padding: resize(3),
-    textAlign: 'left',
-    color: '#00008b',
+    textAlign: 'center',
+    color: '#20b2aa',
     fontSize: resize(20),
+    fontWeight: 'bold',
+  },
+  body: {
+    flex: 5,
+    borderRadius: resize(15),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: themeColor2,
+    width: '90%',
+  },
+});
+const thank = StyleSheet.create({
+  text: {
+    padding: resize(3),
+    textAlign: 'center',
+    color: '#00008b',
+    fontSize: resize(25),
+  },
+  body: {
+    flex: 5,
+    borderRadius: resize(15),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: themeColor2,
+    width: '90%',
+    fontWeight: 'bold',
   },
 });
 const containers = StyleSheet.create({
@@ -493,24 +517,30 @@ const containers = StyleSheet.create({
     borderRadius: resize(25),
     backgroundColor: themeColor2,
     borderColor: themeColor2,
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   nextButtonText: {
-    padding: resize(10),
     textAlign: 'center',
-    color: themeColor,
+    color: '#00008b',
+    fontWeight: 'bold',
   },
   touchable: {
     width: '30%',
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
     aspectRatio: 3.5,
     borderRadius: resize(25),
-    backgroundColor: themeColor,
+    backgroundColor: '#00008b',
     borderColor: themeColor,
   },
   touchText: {
     fontSize: resize(15),
-    padding: resize(10),
     textAlign: 'center',
     color: themeColor2,
+    fontWeight: 'bold',
   },
   progressBar: {
     flex: 1,
@@ -527,17 +557,21 @@ const profiling = StyleSheet.create({
     padding: resize(10),
   },
   touchable: {
-    width: '40%',
-    aspectRatio: 3.5,
+    width: '60%',
+    aspectRatio: 5,
     borderRadius: resize(25),
     backgroundColor: '#00008b',
     borderColor: '#00008b',
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   headerTitle: {
     padding: resize(10),
-    textAlign: 'left',
+    textAlign: 'center',
     color: '#20b2aa',
     fontSize: resize(20),
+    fontWeight: 'bold',
   },
 });
 const categories = StyleSheet.create({
@@ -546,6 +580,7 @@ const categories = StyleSheet.create({
     textAlign: 'left',
     color: '#20b2aa',
     fontSize: resize(20),
+    fontWeight: 'bold',
   },
   catView: {
     padding: resize(5),
@@ -555,6 +590,7 @@ const categories = StyleSheet.create({
     fontSize: resize(20),
     marginVertical: resize(20),
     color: '#191970',
+    fontWeight: 'bold',
   },
   catDescription: {
     fontSize: resize(16),
